@@ -13,10 +13,10 @@ Config.set('graphics', 'height', 400)
 
 from kivy.utils import platform
 from kivy.app import App
-from kivy.properties import NumericProperty, Clock
+from kivy.properties import NumericProperty, Clock, ObjectProperty
 from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Line, Quad, Triangle
-from kivy.uix.widget import Widget
+# from kivy.uix.widget import Widget
 from kivy.core.window import Window
 
 
@@ -29,6 +29,7 @@ class MainWidget(RelativeLayout):
     from transforms import transform, transform2D, transform_perspective
     from user_actions import keyboard_closed, on_keyboard_down, on_keyboard_up, on_touch_down, on_touch_up
 
+    menu_widget = ObjectProperty()
     perspective_point_x = NumericProperty(0)
     perspective_point_y = NumericProperty(0)
 
@@ -61,6 +62,7 @@ class MainWidget(RelativeLayout):
     ship_coordinates = [(0, 0), (0, 0), (0, 0)]
 
     state_game_over = False
+    state_game_has_started = False
 
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
@@ -260,7 +262,7 @@ class MainWidget(RelativeLayout):
         self.update_tiles()
         self.update_ship()
 
-        if not self.state_game_over:
+        if not self.state_game_over and self.state_game_has_started:
             # speed must be dependent on window size
             speed_y = self.SPEED * self.height / 100
             # time_factor for better game performance on every device
@@ -282,7 +284,18 @@ class MainWidget(RelativeLayout):
 
         if not self.check_ship_collision() and not self.state_game_over:
             self.state_game_over = True
+            self.menu_widget.opacity = 1
             print("game over")
+
+    def on_menu_button_pressed(self):
+        # if self.state_game_over:
+            # self.sound_restart.play()
+        # else:
+            # self.sound_begin.play()
+        # self.reset_game()
+        # self.sound_music1.play()
+        self.state_game_has_started = True
+        self.menu_widget.opacity = 0
 
 
 class TheGalaxyApp(App):
