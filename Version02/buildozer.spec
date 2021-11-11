@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = The Galaxy - V3
+title = The Galaxy - V2
 
 # (str) Package name
-package.name = thegalaxyv3
+package.name = thegalaxyv2
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.loerinci
@@ -13,10 +13,10 @@ package.domain = org.loerinci
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,ttf,wav
+source.include_exts = py,png,jpg,kv,atlas,ttf
 
 # (list) List of inclusions using pattern matching
-source.include_patterns = assets/*,images/*.jpg,audio/*.wav, fonts/*.ttf
+source.include_patterns = assets/*,images/*.png,images/*.jpg,Fonts/*.ttf
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec

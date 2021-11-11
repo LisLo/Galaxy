@@ -13,3 +13,7 @@ On the computer the arrow keys can be used. On the cell phone you can use touch 
 In the second version it is possible to follow the track with the space shuttel. There is no game over yet (only via output on the computer in the terminal).
 
 ![img_1.png](img_1.png)
+
+**Version03**
+
+In this Version you will play the Game.
