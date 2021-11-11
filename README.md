@@ -16,4 +16,11 @@ In the second version it is possible to follow the track with the space shuttel.
 
 **Version03**
 
-In this Version you will play the Game.
+In this Version you will be able to play the Game.
+Please note! In Android kivy NO *.jpg can be embedded. Therefore, be sure to switch to *.png!
+
+![img_2.png](img_2.png)
+
+![img_4.png](img_4.png)
+
+![img_3.png](img_3.png)
