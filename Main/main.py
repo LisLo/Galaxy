@@ -25,6 +25,7 @@ sys.path.append(root_path)
 
 Builder.load_file("menu.kv")
 
+
 class MainWidget(RelativeLayout):
     from transforms import transform, transform2D, transform_perspective
     from user_actions import keyboard_closed, on_keyboard_down, on_keyboard_up, on_touch_down, on_touch_up
@@ -71,8 +72,7 @@ class MainWidget(RelativeLayout):
         self.init_horizontal_lines()
         self.init_tiles()
         self.init_ship()
-        self.pre_fill_tiles_coordinates()
-        self.generate_tiles_coordinates()
+        self.reset_game()
 
         if self.is_desktop():
             self._keyboard = Window.request_keyboard(self.keyboard_closed, self)
@@ -80,6 +80,19 @@ class MainWidget(RelativeLayout):
             self._keyboard.bind(on_key_up=self.on_keyboard_up)
 
         Clock.schedule_interval(self.update, 1.0 / 60.0)
+
+    def reset_game(self):
+        self.current_offset_y = 0
+        self.current_y_loop = 0
+        self.current_speed_x = 0
+        self.current_offset_x = 0
+
+        self.tiles_coordinates = []
+        # self.score_txt = "SCORE: 0"
+        self.pre_fill_tiles_coordinates()
+        self.generate_tiles_coordinates()
+
+        self.state_game_over = False
 
     def init_ship(self):
         with self.canvas:
@@ -161,7 +174,7 @@ class MainWidget(RelativeLayout):
             r = random.randint(0, 2)
 
             start_index = - int(self.V_NB_LINES / 2) + 1
-            end_index = start_index + self.V_NB_LINES - 1
+            end_index = start_index + self.V_NB_LINES - 2
 
             # 0 -> straight
             # 1 -> right
@@ -292,7 +305,7 @@ class MainWidget(RelativeLayout):
             # self.sound_restart.play()
         # else:
             # self.sound_begin.play()
-        # self.reset_game()
+        self.reset_game()
         # self.sound_music1.play()
         self.state_game_has_started = True
         self.menu_widget.opacity = 0
