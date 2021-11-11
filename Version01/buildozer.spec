@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = The Galaxy - V2
+title = The Galaxy - V1
 
 # (str) Package name
-package.name = thegalaxyv2
+package.name = thegalaxy
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.loerinci
@@ -22,7 +22,7 @@ source.include_patterns = assets/*,images/*.png,images/*.jpg,Fonts/*.ttf
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, venv, TheLab, Source, Galaxy
+source.exclude_dirs = tests, bin, venv, TheLab, Source
 
 # (list) List of exclusions using pattern matching
 #source.exclude_patterns = license,images/*/*.jpg
@@ -49,7 +49,7 @@ requirements = python3,kivy
 #icon.filename = %(source.dir)s/data/icon.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = all
+orientation = portrait
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
