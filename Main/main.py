@@ -65,8 +65,10 @@ class MainWidget(RelativeLayout):
     state_game_over = False
     state_game_has_started = False
 
-    menu_title = StringProperty("G   A   L   A   X   Y")
-    menu_button_title = StringProperty("S  T  A  R  T")
+    menu_title = StringProperty("G  A  L  A  X  Y")
+    menu_button_title = StringProperty("S T A R T")
+
+    score_txt = StringProperty("Score: 0")
 
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
@@ -89,6 +91,7 @@ class MainWidget(RelativeLayout):
         self.current_y_loop = 0
         self.current_speed_x = 0
         self.current_offset_x = 0
+        self.score_txt = "Score: " + str(self.current_y_loop)
 
         self.tiles_coordinates = []
         # self.score_txt = "SCORE: 0"
@@ -292,6 +295,7 @@ class MainWidget(RelativeLayout):
             while self.current_offset_y >= spacing_y:
                 self.current_offset_y -= spacing_y
                 self.current_y_loop += 1
+                self.score_txt = "Score: " + str(self.current_y_loop)
                 self.generate_tiles_coordinates()
 
             speed_x = self.current_speed_x * self.width / 100
@@ -301,7 +305,7 @@ class MainWidget(RelativeLayout):
         if not self.check_ship_collision() and not self.state_game_over:
             self.state_game_over = True
             self.menu_widget.opacity = 1
-            self.menu_title = "G  A  M  E    O  V  E  R"
+            self.menu_title = "G A M E   O V E R"
             self.menu_button_title = "RESTART"
             print("game over")
 
