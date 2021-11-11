@@ -5,6 +5,9 @@ from pathlib import Path
 import random
 
 from kivy.config import Config
+from kivy.lang import Builder
+from kivy.uix.relativelayout import RelativeLayout
+
 Config.set('graphics', 'width', 900)
 Config.set('graphics', 'height', 400)
 
@@ -20,8 +23,9 @@ from kivy.core.window import Window
 root_path: Path = os.path.split((os.path.dirname(__file__)))[0]
 sys.path.append(root_path)
 
+Builder.load_file("menu.kv")
 
-class MainWidget(Widget):
+class MainWidget(RelativeLayout):
     from transforms import transform, transform2D, transform_perspective
     from user_actions import keyboard_closed, on_keyboard_down, on_keyboard_up, on_touch_down, on_touch_up
 
@@ -55,6 +59,8 @@ class MainWidget(Widget):
     SHIP_BASE_Y = .04
     ship = None
     ship_coordinates = [(0, 0), (0, 0), (0, 0)]
+
+    state_game_over = False
 
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
@@ -254,22 +260,28 @@ class MainWidget(Widget):
         self.update_tiles()
         self.update_ship()
 
-        # speed must be dependent on window size
-        speed_y = self.SPEED * self.height / 100
-        # time_factor for better game performance on every device
-        self.current_offset_y += speed_y * time_factor
+        if not self.state_game_over:
+            # speed must be dependent on window size
+            speed_y = self.SPEED * self.height / 100
+            # time_factor for better game performance on every device
+            self.current_offset_y += speed_y * time_factor
 
-        spacing_y = self.H_LINES_SPACING * self.height
-        if self.current_offset_y >= spacing_y:
-            self.current_offset_y -= spacing_y
-            self.current_y_loop += 1
-            self.generate_tiles_coordinates()
+            spacing_y = self.H_LINES_SPACING * self.height
+            # change "if" to "while" because for big SPEED
+            # the dt is much bigger than spacing_y and we
+            # get out of correct current_y_loop range
+            # (bug: game will not start)
+            while self.current_offset_y >= spacing_y:
+                self.current_offset_y -= spacing_y
+                self.current_y_loop += 1
+                self.generate_tiles_coordinates()
 
-        speed_x = self.current_speed_x * self.width / 100
-        # movement on the right
-        self.current_offset_x += speed_x * time_factor
+            speed_x = self.current_speed_x * self.width / 100
+            # movement on the right
+            self.current_offset_x += speed_x * time_factor
 
-        if not self.check_ship_collision():
+        if not self.check_ship_collision() and not self.state_game_over:
+            self.state_game_over = True
             print("game over")
 
 
