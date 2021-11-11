@@ -13,7 +13,7 @@ Config.set('graphics', 'height', 400)
 
 from kivy.utils import platform
 from kivy.app import App
-from kivy.properties import NumericProperty, Clock, ObjectProperty
+from kivy.properties import NumericProperty, Clock, ObjectProperty, StringProperty
 from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Line, Quad, Triangle
 # from kivy.uix.widget import Widget
@@ -64,6 +64,9 @@ class MainWidget(RelativeLayout):
 
     state_game_over = False
     state_game_has_started = False
+
+    menu_title = StringProperty("G   A   L   A   X   Y")
+    menu_button_title = StringProperty("S  T  A  R  T")
 
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
@@ -298,6 +301,8 @@ class MainWidget(RelativeLayout):
         if not self.check_ship_collision() and not self.state_game_over:
             self.state_game_over = True
             self.menu_widget.opacity = 1
+            self.menu_title = "G  A  M  E    O  V  E  R"
+            self.menu_button_title = "RESTART"
             print("game over")
 
     def on_menu_button_pressed(self):
