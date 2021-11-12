@@ -44,7 +44,7 @@ class MainWidget(RelativeLayout):
     horizontal_lines = []
 
     # for moving down
-    SPEED = .8
+    SPEED = .6
     current_offset_y = 0
     current_y_loop = 0
 
@@ -70,6 +70,9 @@ class MainWidget(RelativeLayout):
     menu_button_title = StringProperty("S T A R T")
 
     score_txt = StringProperty("Score: 0")
+    level_txt = StringProperty("Level: 1")
+
+    level = 1
 
     sound_begin = None
     sound_galaxy = None
@@ -116,7 +119,10 @@ class MainWidget(RelativeLayout):
         self.current_y_loop = 0
         self.current_speed_x = 0
         self.current_offset_x = 0
+        self.SPEED = 0.6
+        self.level = 1
         self.score_txt = "Score: " + str(self.current_y_loop)
+        self.level_txt = "Level: " + str(self.level)
 
         self.tiles_coordinates = []
         # self.score_txt = "SCORE: 0"
@@ -321,6 +327,10 @@ class MainWidget(RelativeLayout):
                 self.current_offset_y -= spacing_y
                 self.current_y_loop += 1
                 self.score_txt = "Score: " + str(self.current_y_loop)
+                if self.current_y_loop % 30 == 0:
+                    self.level += 1
+                    self.SPEED += .2
+                self.level_txt = "Level: " + str(self.level)
                 self.generate_tiles_coordinates()
 
             speed_x = self.current_speed_x * self.width / 100

@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = The Galaxy - V3
+title = The Galaxy - V4
 
 # (str) Package name
-package.name = thegalaxyv3
+package.name = thegalaxyv4
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.loerinci
@@ -46,7 +46,7 @@ requirements = python3,kivy
 #presplash.filename = %(source.dir)s/data/presplash.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/data/icon.png
+icon.filename = %(source.dir)s/images/pic.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = landscape
@@ -88,7 +88,7 @@ fullscreen = 0
 #android.presplash_lottie = "path/to/lottie/file.json"
 
 # (str) Adaptive icon of the application (used if Android API level is 26+ at runtime)
-#icon.adaptive_foreground.filename = %(source.dir)s/data/icon_fg.png
+#icon.adaptive_foreground.filename = %(source.dir)s/images/pic.png
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
@@ -321,7 +321,7 @@ android.allow_backup = True
 # (str) Path to a custom kivy-ios folder
 #ios.kivy_ios_dir = ../kivy-ios
 # Alternately, specify the URL and branch of a git checkout:
-ios.kivy_ios_url = https://github.com/kivy/kivy-ios
+ios.kivy_ios_url = https://github.com/lilofashion/Main/galaxy-ios
 ios.kivy_ios_branch = master
 
 # Another platform dependency: ios-deploy
@@ -353,11 +353,11 @@ ios.codesign.allowed = false
 
 # (str) URL pointing to an icon (57x57px) to be displayed during download
 # This option should be defined along with `app_url` and `full_size_image_url` options.
-#ios.manifest.display_image_url =
+# ios.manifest.display_image_url =
 
 # (str) URL pointing to a large icon (512x512px) to be used by iTunes
 # This option should be defined along with `app_url` and `display_image_url` options.
-#ios.manifest.full_size_image_url =
+ios.manifest.full_size_image_url = images/pic.png
 
 
 [buildozer]
