@@ -3,6 +3,8 @@ import os
 import sys
 from pathlib import Path
 import random
+from os import path
+from pathlib import Path
 
 from kivy.config import Config
 from kivy.core.audio import SoundLoader
@@ -23,6 +25,10 @@ from kivy.core.window import Window
 
 root_path: Path = os.path.split((os.path.dirname(__file__)))[0]
 sys.path.append(root_path)
+main_path: Path = path.join(root_path, "Main")
+# print(main_path)
+# HS_FILE = "highscore.txt"
+# highscore_dir: Path = path.join(root_path, HS_FILE)
 
 Builder.load_file("menu.kv")
 
@@ -71,8 +77,13 @@ class MainWidget(RelativeLayout):
 
     score_txt = StringProperty("Score: 0")
     level_txt = StringProperty("Level: 1")
+    highscore_txt = StringProperty("Highcore: 0")
 
     level = 1
+#     file = open(path.join(main_path, HS_FILE), "w+")
+#     highscore = int(file.read())
+    # file.close()
+    # print(highscore)
 
     sound_begin = None
     sound_galaxy = None
@@ -89,6 +100,7 @@ class MainWidget(RelativeLayout):
         self.init_horizontal_lines()
         self.init_tiles()
         self.init_ship()
+        # self.load_data()
         self.reset_game()
 
         if self.is_desktop():
@@ -98,6 +110,14 @@ class MainWidget(RelativeLayout):
 
         Clock.schedule_interval(self.update, 1.0 / 60.0)
         self.sound_galaxy.play()
+
+    def load_data(self):
+        # load highscore
+        with open(path.join(main_path, HS_FILE), "a+") as f:
+            try:
+                self.highscore = int(f.read())
+            except:
+                self.highscore = 0
 
     def init_audio(self):
         self.sound_begin = SoundLoader.load("audio/begin.wav")
@@ -128,6 +148,8 @@ class MainWidget(RelativeLayout):
         # self.score_txt = "SCORE: 0"
         self.pre_fill_tiles_coordinates()
         self.generate_tiles_coordinates()
+
+        # self.load_data()
 
         self.state_game_over = False
 
@@ -346,6 +368,24 @@ class MainWidget(RelativeLayout):
             self.sound_music1.stop()
             self.sound_gameover_impact.play()
             Clock.schedule_once(self.play_game_over_voice_sound, 1)
+
+            # f = open(path.join(main_path, HS_FILE), "w+")
+            # print("-------------")
+            # print(self.file.read())
+            # actual_highscore = int(self.file.read())
+# file = open(path.join(main_path, HS_FILE))
+# highscore = int(file.read())
+            # print("Aktueller High: " + actual_highscore)
+
+            # if self.current_y_loop > int(actual_highscore):
+                # self.highscore = self.current_y_loop
+                # self.highscore_txt = "New Highscore: " + str(self.highscore)
+                # f.write(str(self.current_y_loop))
+                        # print(f.read())
+                        # f.close()
+            # else:
+                # self.highscore_txt = "Highscore: " + str(self.highscore)
+
             print("game over")
 
     def play_game_over_voice_sound(self, dt):
@@ -357,6 +397,8 @@ class MainWidget(RelativeLayout):
             self.sound_restart.play()
         else:
             self.sound_begin.play()
+        # f = open(path.join(main_path, HS_FILE), "a+")
+        # self.highscore_txt = "Highscore: " + f.read()
         self.reset_game()
         self.sound_music1.play()
         self.state_game_has_started = True
