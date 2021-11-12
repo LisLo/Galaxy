@@ -1,10 +1,8 @@
 # from io import StringIO
 import os
 import sys
-from pathlib import Path
+# from pathlib import Path
 import random
-from os import path
-from pathlib import Path
 
 from kivy.config import Config
 from kivy.core.audio import SoundLoader
@@ -25,10 +23,7 @@ from kivy.core.window import Window
 
 root_path: Path = os.path.split((os.path.dirname(__file__)))[0]
 sys.path.append(root_path)
-main_path: Path = path.join(root_path, "Main")
-# print(main_path)
-# HS_FILE = "highscore.txt"
-# highscore_dir: Path = path.join(root_path, HS_FILE)
+# main_path: Path = path.join(root_path, "Main")
 
 Builder.load_file("menu.kv")
 
@@ -110,14 +105,6 @@ class MainWidget(RelativeLayout):
 
         Clock.schedule_interval(self.update, 1.0 / 60.0)
         self.sound_galaxy.play()
-
-    def load_data(self):
-        # load highscore
-        with open(path.join(main_path, HS_FILE), "a+") as f:
-            try:
-                self.highscore = int(f.read())
-            except:
-                self.highscore = 0
 
     def init_audio(self):
         self.sound_begin = SoundLoader.load("audio/begin.wav")
@@ -368,23 +355,6 @@ class MainWidget(RelativeLayout):
             self.sound_music1.stop()
             self.sound_gameover_impact.play()
             Clock.schedule_once(self.play_game_over_voice_sound, 1)
-
-            # f = open(path.join(main_path, HS_FILE), "w+")
-            # print("-------------")
-            # print(self.file.read())
-            # actual_highscore = int(self.file.read())
-# file = open(path.join(main_path, HS_FILE))
-# highscore = int(file.read())
-            # print("Aktueller High: " + actual_highscore)
-
-            # if self.current_y_loop > int(actual_highscore):
-                # self.highscore = self.current_y_loop
-                # self.highscore_txt = "New Highscore: " + str(self.highscore)
-                # f.write(str(self.current_y_loop))
-                        # print(f.read())
-                        # f.close()
-            # else:
-                # self.highscore_txt = "Highscore: " + str(self.highscore)
 
             print("game over")
 
