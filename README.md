@@ -40,4 +40,4 @@ Version 3 is completed.
 
 As the last function for now, levels and a leaderboard will be integrated. Levels will be displayed in the upper right corner of the screen. The speed will be increased at a score of +50 (score module 50 equals 0).
 
-The leaderboard should be selectable after the game over. (Only the points will be saved. No data from the user will be collected or entered)
+(Later: The leaderboard should be selectable after the game over. (Only the points will be saved. No data from the user will be collected or entered))
