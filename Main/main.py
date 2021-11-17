@@ -1,13 +1,16 @@
 # from io import StringIO
 import os
 import sys
+from os.path import join
 from pathlib import Path
 import random
 import json
 
+from kivy import app
 from kivy.config import Config
 from kivy.core.audio import SoundLoader
 from kivy.lang import Builder
+from kivy.storage.jsonstore import JsonStore
 from kivy.uix.relativelayout import RelativeLayout
 
 Config.set('graphics', 'width', 900)
@@ -26,6 +29,8 @@ root_path: Path = os.path.split((os.path.dirname(__file__)))[0]
 sys.path.append(root_path)
 main_path: Path = os.path.join(root_path, "Main")
 sys.path.append(main_path)
+highscore_path: Path = os.path.join(main_path, "Input")
+sys.path.append(highscore_path)
 
 Builder.load_file("menu.kv")
 
@@ -35,6 +40,7 @@ class MainWidget(RelativeLayout):
     from user_actions import keyboard_closed, on_keyboard_down, on_keyboard_up, on_touch_down, on_touch_up
 
     menu_widget = ObjectProperty()
+    # store = JsonStore()
     perspective_point_x = NumericProperty(0)
     perspective_point_y = NumericProperty(0)
 
@@ -43,9 +49,12 @@ class MainWidget(RelativeLayout):
     menu_title = StringProperty("G  A  L  A  X  Y")
     menu_button_title = StringProperty("S T A R T")
 
+    score = NumericProperty()
     score_txt = StringProperty("Score: 0")
     level_txt = StringProperty("Level: 1")
-    highscore_txt = StringProperty("Highcore: 0")
+    #with open(os.path.join(highscore_path, self.HS_FILE), 'r') as f:
+        #highscore = int(f.read())
+    highscore_txt = StringProperty()
 
     def source_init(self):
         json_path: Path = os.path.join(main_path, "Input/config.json")
@@ -59,6 +68,16 @@ class MainWidget(RelativeLayout):
         else:
             sys.exit("No Config.json found")
 
+    def load_data(self):
+        # load high score
+        with open(os.path.join(highscore_path, self.HS_FILE), 'r') as f:
+            try:
+                self.highscore = int(f.read())
+                print(self.highscore)
+            except:
+                self.highscore = 0
+        self.highscore_txt = "Highscore: " + str(self.highscore)
+
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         # print("INIT W: " + str(self.width) + " H: " + str(self.height))
@@ -68,7 +87,8 @@ class MainWidget(RelativeLayout):
         self.init_horizontal_lines()
         self.init_tiles()
         self.init_ship()
-        # self.load_data()
+        self.load_data()
+        # self.highscore_reader()
         self.reset_game()
 
         if self.is_desktop():
@@ -108,8 +128,7 @@ class MainWidget(RelativeLayout):
         # self.score_txt = "SCORE: 0"
         self.pre_fill_tiles_coordinates()
         self.generate_tiles_coordinates()
-
-        # self.load_data()
+        self.load_data()
 
         self.state_game_over = False
 
@@ -309,6 +328,7 @@ class MainWidget(RelativeLayout):
                 self.current_offset_y -= spacing_y
                 self.current_y_loop += 1
                 self.score_txt = "Score: " + str(self.current_y_loop)
+                self.score = self.current_y_loop
                 if self.current_y_loop % 30 == 0:
                     self.level += 1
                     self.SPEED += .2
@@ -325,11 +345,18 @@ class MainWidget(RelativeLayout):
             self.menu_title = "G A M E   O V E R"
             self.menu_button_title = "RESTART"
 
+            if self.score > self.highscore:
+                self.highscore = self.score
+                #self.draw_text("New HighScore")
+                with open(os.path.join(highscore_path, self.HS_FILE), 'w') as f:
+                    f.write(str(self.score))
+            else:
+                self.highscore_txt = str(self.highscore)
+
             self.sound_music1.stop()
             self.sound_gameover_impact.play()
             Clock.schedule_once(self.play_game_over_voice_sound, 1)
 
-            print("game over")
 
     def play_game_over_voice_sound(self, dt):
         if self.state_game_over:
