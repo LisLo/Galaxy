@@ -64,11 +64,7 @@ class MainWidget(RelativeLayout):
     def load_data(self):
         # load high score
         with open(os.path.join(highscore_path, self.HS_FILE), 'r') as f:
-            try:
-                self.highscore = int(f.read())
-                print(self.highscore)
-            except:
-                self.highscore = 0
+            self.highscore = int(f.read())
         self.highscore_txt = "Highscore: " + str(self.highscore)
 
     def __init__(self, **kwargs):
