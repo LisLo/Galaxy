@@ -1,16 +1,12 @@
-# from io import StringIO
 import os
 import sys
-from os.path import join
 from pathlib import Path
 import random
 import json
 
-from kivy import app
 from kivy.config import Config
 from kivy.core.audio import SoundLoader
 from kivy.lang import Builder
-from kivy.storage.jsonstore import JsonStore
 from kivy.uix.relativelayout import RelativeLayout
 
 Config.set('graphics', 'width', 900)
@@ -21,7 +17,6 @@ from kivy.app import App
 from kivy.properties import NumericProperty, Clock, ObjectProperty, StringProperty
 from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Line, Quad, Triangle
-# from kivy.uix.widget import Widget
 from kivy.core.window import Window
 
 
@@ -52,8 +47,6 @@ class MainWidget(RelativeLayout):
     score = NumericProperty()
     score_txt = StringProperty("Score: 0")
     level_txt = StringProperty("Level: 1")
-    #with open(os.path.join(highscore_path, self.HS_FILE), 'r') as f:
-        #highscore = int(f.read())
     highscore_txt = StringProperty()
 
     def source_init(self):
@@ -88,7 +81,6 @@ class MainWidget(RelativeLayout):
         self.init_tiles()
         self.init_ship()
         self.load_data()
-        # self.highscore_reader()
         self.reset_game()
 
         if self.is_desktop():
@@ -347,7 +339,7 @@ class MainWidget(RelativeLayout):
 
             if self.score > self.highscore:
                 self.highscore = self.score
-                #self.draw_text("New HighScore")
+                self.highscore_txt = "New HighScore: " + str(self.highscore)
                 with open(os.path.join(highscore_path, self.HS_FILE), 'w') as f:
                     f.write(str(self.score))
             else:
@@ -356,7 +348,6 @@ class MainWidget(RelativeLayout):
             self.sound_music1.stop()
             self.sound_gameover_impact.play()
             Clock.schedule_once(self.play_game_over_voice_sound, 1)
-
 
     def play_game_over_voice_sound(self, dt):
         if self.state_game_over:
