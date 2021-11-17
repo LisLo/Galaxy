@@ -3,6 +3,7 @@ import os
 import sys
 from pathlib import Path
 import random
+import json
 
 from kivy.config import Config
 from kivy.core.audio import SoundLoader
@@ -23,7 +24,8 @@ from kivy.core.window import Window
 
 root_path: Path = os.path.split((os.path.dirname(__file__)))[0]
 sys.path.append(root_path)
-# main_path: Path = path.join(root_path, "Main")
+main_path: Path = os.path.join(root_path, "Main")
+sys.path.append(main_path)
 
 Builder.load_file("menu.kv")
 
@@ -36,36 +38,7 @@ class MainWidget(RelativeLayout):
     perspective_point_x = NumericProperty(0)
     perspective_point_y = NumericProperty(0)
 
-    # vertical numbers of lines
-    V_NB_LINES = 8
-    H_NB_LINES = 15
-    V_LINES_SPACING = .4  # percentage in screen width
-    H_LINES_SPACING = .2
-    vertical_lines = []
-    horizontal_lines = []
-
-    # for moving down
-    SPEED = .6
-    current_offset_y = 0
-    current_y_loop = 0
-
-    # for moving side
-    SPEED_X = 3
-    current_speed_x = 0
-    current_offset_x = 0
-
-    NB_TILES = 8
-    tiles = []
-    tiles_coordinates = []
-
-    SHIP_WIDTH = .1
-    SHIP_HEIGTH = .035
-    SHIP_BASE_Y = .04
-    ship = None
     ship_coordinates = [(0, 0), (0, 0), (0, 0)]
-
-    state_game_over = False
-    state_game_has_started = False
 
     menu_title = StringProperty("G  A  L  A  X  Y")
     menu_button_title = StringProperty("S T A R T")
@@ -74,22 +47,22 @@ class MainWidget(RelativeLayout):
     level_txt = StringProperty("Level: 1")
     highscore_txt = StringProperty("Highcore: 0")
 
-    level = 1
-#     file = open(path.join(main_path, HS_FILE), "w+")
-#     highscore = int(file.read())
-    # file.close()
-    # print(highscore)
-
-    sound_begin = None
-    sound_galaxy = None
-    sound_gameover_impact = None
-    sound_gameover_voice = None
-    sound_music1 = None
-    sound_restart = None
+    def source_init(self):
+        json_path: Path = os.path.join(main_path, "Input/config.json")
+        if os.path.isfile(json_path):
+            # Sonderzeichen koennen eingelesen werden
+            with open(json_path, encoding="utf-8") as json_path:
+                inputs = json.load(json_path)
+                for key, value in inputs.items():
+                    setattr(self, key, value)
+                return inputs
+        else:
+            sys.exit("No Config.json found")
 
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         # print("INIT W: " + str(self.width) + " H: " + str(self.height))
+        self.source_init()
         self.init_audio()
         self.init_vertical_lines()
         self.init_horizontal_lines()
