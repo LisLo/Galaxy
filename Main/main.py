@@ -76,7 +76,7 @@ class MainWidget(RelativeLayout):
         self.init_horizontal_lines()
         self.init_tiles()
         self.init_ship()
-        self.load_data()
+        # self.load_data()
         self.reset_game()
 
         if self.is_desktop():
@@ -116,7 +116,7 @@ class MainWidget(RelativeLayout):
         # self.score_txt = "SCORE: 0"
         self.pre_fill_tiles_coordinates()
         self.generate_tiles_coordinates()
-        self.load_data()
+        # self.load_data()
 
         self.state_game_over = False
 
