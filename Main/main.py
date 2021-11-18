@@ -34,15 +34,53 @@ class MainWidget(RelativeLayout):
     from transforms import transform, transform2D, transform_perspective
     from user_actions import keyboard_closed, on_keyboard_down, on_keyboard_up, on_touch_down, on_touch_up
 
+    # vertical numbers of lines
+    V_NB_LINES = 8
+    H_NB_LINES = 15
+    V_LINES_SPACING = .4  # percentage in screen width
+    H_LINES_SPACING = .2
+    vertical_lines = []
+    horizontal_lines = []
+
+    # for moving down
+    SPEED = .8
+    current_offset_y = 0
+    current_y_loop = 0
+
+    # for moving side
+    SPEED_X = 3
+    current_speed_x = 0
+    current_offset_x = 0
+
+    NB_TILES = 8
+    tiles = []
+    tiles_coordinates = []
+
+    SHIP_WIDTH = .1
+    SHIP_HEIGTH = .035
+    SHIP_BASE_Y = .04
+    ship = None
+    ship_coordinates = [(0, 0), (0, 0), (0, 0)]
+
+    state_game_over = False
+    state_game_has_started = False
+
+    menu_title = StringProperty("G  A  L  A  X  Y")
+    menu_button_title = StringProperty("S T A R T")
+
+    score_txt = StringProperty("Score: 0")
+
+    sound_begin = None
+    sound_galaxy = None
+    sound_gameover_impact = None
+    sound_gameover_voice = None
+    sound_music1 = None
+    sound_restart = None
+
     menu_widget = ObjectProperty()
     # store = JsonStore()
     perspective_point_x = NumericProperty(0)
     perspective_point_y = NumericProperty(0)
-
-    ship_coordinates = [(0, 0), (0, 0), (0, 0)]
-
-    menu_title = StringProperty("G  A  L  A  X  Y")
-    menu_button_title = StringProperty("S T A R T")
 
     score = NumericProperty()
     score_txt = StringProperty("Score: 0")
@@ -70,7 +108,7 @@ class MainWidget(RelativeLayout):
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         # print("INIT W: " + str(self.width) + " H: " + str(self.height))
-        self.source_init()
+        # self.source_init()
         self.init_audio()
         self.init_vertical_lines()
         self.init_horizontal_lines()
@@ -333,13 +371,13 @@ class MainWidget(RelativeLayout):
             self.menu_title = "G A M E   O V E R"
             self.menu_button_title = "RESTART"
 
-            if self.score > self.highscore:
-                self.highscore = self.score
-                self.highscore_txt = "New HighScore: " + str(self.highscore)
-                with open(os.path.join(highscore_path, self.HS_FILE), 'w') as f:
-                    f.write(str(self.score))
-            else:
-                self.highscore_txt = str(self.highscore)
+            # if self.score > self.highscore:
+                # self.highscore = self.score
+                # self.highscore_txt = "New HighScore: " + str(self.highscore)
+                # with open(os.path.join(highscore_path, self.HS_FILE), 'w') as f:
+                    # f.write(str(self.score))
+            # else:
+                # self.highscore_txt = str(self.highscore)
 
             self.sound_music1.stop()
             self.sound_gameover_impact.play()
