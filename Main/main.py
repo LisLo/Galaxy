@@ -116,7 +116,7 @@ class MainWidget(RelativeLayout):
         self.init_horizontal_lines()
         self.init_tiles()
         self.init_ship()
-        self.load_data()
+        # self.load_data()
         self.reset_game()
 
         if self.is_desktop():
@@ -156,7 +156,7 @@ class MainWidget(RelativeLayout):
         # self.score_txt = "SCORE: 0"
         self.pre_fill_tiles_coordinates()
         self.generate_tiles_coordinates()
-        self.load_data()
+        # self.load_data()
 
         self.state_game_over = False
 
@@ -373,17 +373,20 @@ class MainWidget(RelativeLayout):
             self.menu_title = "G A M E   O V E R"
             self.menu_button_title = "RESTART"
 
-            if self.score > self.highscore:
-                self.highscore = self.score
-                self.highscore_txt = "New HighScore: " + str(self.highscore)
-                with open(os.path.join(highscore_path, self.HS_FILE), 'w') as f:
-                    f.write(str(self.score))
-            else:
-                self.highscore_txt = str(self.highscore)
+            # self.actualize_highscore()
 
             self.sound_music1.stop()
             self.sound_gameover_impact.play()
             Clock.schedule_once(self.play_game_over_voice_sound, 1)
+
+    def actualize_highscore(self):
+        if self.score > self.highscore:
+            self.highscore = self.score
+            self.highscore_txt = "New HighScore: " + str(self.highscore)
+            with open(os.path.join(highscore_path, self.HS_FILE), 'w') as f:
+                f.write(str(self.score))
+        else:
+            self.highscore_txt = str(self.highscore)
 
     def play_game_over_voice_sound(self, dt):
         if self.state_game_over:
