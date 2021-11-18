@@ -1,0 +1,38 @@
+{
+    "V_NB_LINES": 8,
+    "H_NB_LINES": 15,
+    "V_LINES_SPACING": 0.4,
+    "H_LINES_SPACING": 0.2,
+    "vertical_lines": [],
+    "horizontal_lines": [],
+
+    "SPEED": 0.6,
+    "current_offset_y": 0,
+    "current_y_loop": 0,
+
+    "SPEED_X": 3,
+    "current_speed_x": 0,
+    "current_offset_x": 0,
+
+    "NB_TILES": 8,
+    "tiles": [],
+    "tiles_coordinates": [],
+
+    "SHIP_WIDTH": 0.1,
+    "SHIP_HEIGTH": 0.035,
+    "SHIP_BASE_Y": 0.04,
+    "ship": null,
+    "state_game_over": false,
+    "state_game_has_started": false,
+
+    "level": 1,
+
+    "sound_begin": null,
+    "sound_galaxy": null,
+    "sound_gameover_impact": null,
+    "sound_gameover_voice": null,
+    "sound_music1": null,
+    "sound_restart": null,
+
+    "HS_FILE": "highscore.txt"
+}

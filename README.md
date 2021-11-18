@@ -38,7 +38,12 @@ Version 3 is completed.
 
 **Version04**
 
+This version is playable as an APK on the cell phone and is additionally in the main. In "Actions" on Github you can find the matching executable APK
+
+**Version05**
+
 As the last function for now, levels and high score will be integrated. Levels will be displayed in the upper right corner of the screen. The speed will be increased at a score of +50 (score module 50 equals 0).
+Unfortunately, it only works in the development environment so far. Also the swapping of the variables into a *.json is not possible in the APK and was realized in version05.
 
 ![img_5.png](img_5.png)
 
